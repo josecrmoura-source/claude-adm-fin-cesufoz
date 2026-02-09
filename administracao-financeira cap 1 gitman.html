@@ -1,0 +1,1245 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administração Financeira - Capítulo 1</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', 'Roboto', sans-serif;
+            background: #0a0e14;
+            color: #e6edf3;
+            overflow: hidden;
+            line-height: 1.6;
+        }
+
+        .presentation {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+        }
+
+        .navigation {
+            width: 280px;
+            background: #161b22;
+            border-right: 1px solid #30363d;
+            padding: 32px 24px;
+            overflow-y: auto;
+            position: fixed;
+            height: 100vh;
+            left: 0;
+            top: 0;
+        }
+
+        .nav-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #58a6ff;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 24px;
+        }
+
+        .nav-item {
+            padding: 12px 16px;
+            margin-bottom: 8px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 14px;
+            border-left: 3px solid transparent;
+        }
+
+        .nav-item:hover {
+            background: #1c2128;
+            border-left-color: #58a6ff;
+        }
+
+        .nav-item.active {
+            background: #1c2128;
+            border-left-color: #58a6ff;
+            color: #58a6ff;
+            font-weight: 500;
+        }
+
+        .slide-container {
+            margin-left: 280px;
+            width: calc(100vw - 280px);
+            height: 100vh;
+            position: relative;
+        }
+
+        .slide {
+            display: none;
+            width: 100%;
+            height: 100%;
+            padding: 80px 100px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .slide.active {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .slide-number {
+            position: absolute;
+            bottom: 40px;
+            right: 40px;
+            font-size: 14px;
+            color: #6e7681;
+            font-weight: 500;
+        }
+
+        h1 {
+            font-size: 72px;
+            font-weight: 700;
+            margin-bottom: 24px;
+            color: #58a6ff;
+            line-height: 1.1;
+        }
+
+        h2 {
+            font-size: 56px;
+            font-weight: 600;
+            margin-bottom: 32px;
+            color: #e6edf3;
+        }
+
+        h3 {
+            font-size: 32px;
+            font-weight: 600;
+            margin-bottom: 24px;
+            color: #58a6ff;
+        }
+
+        .subtitle {
+            font-size: 28px;
+            color: #8b949e;
+            margin-bottom: 16px;
+            font-weight: 400;
+        }
+
+        .highlight {
+            color: #58a6ff;
+            font-weight: 600;
+        }
+
+        .key-point {
+            font-size: 42px;
+            font-weight: 600;
+            color: #e6edf3;
+            margin: 32px 0;
+            padding: 32px;
+            background: linear-gradient(135deg, #1c2128 0%, #161b22 100%);
+            border-left: 4px solid #58a6ff;
+            border-radius: 8px;
+        }
+
+        .concept-box {
+            background: #161b22;
+            border: 2px solid #30363d;
+            border-radius: 12px;
+            padding: 40px;
+            margin: 24px 0;
+        }
+
+        .concept-box h4 {
+            color: #58a6ff;
+            font-size: 24px;
+            margin-bottom: 16px;
+        }
+
+        .concept-box p {
+            font-size: 20px;
+            line-height: 1.8;
+        }
+
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 32px;
+            margin: 40px 0;
+        }
+
+        .comparison-card {
+            background: #161b22;
+            border: 2px solid #30363d;
+            border-radius: 12px;
+            padding: 32px;
+            transition: all 0.3s ease;
+        }
+
+        .comparison-card:hover {
+            border-color: #58a6ff;
+            transform: translateY(-4px);
+        }
+
+        .comparison-card h4 {
+            color: #58a6ff;
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+
+        .comparison-card ul {
+            list-style: none;
+            font-size: 18px;
+        }
+
+        .comparison-card li {
+            padding: 8px 0;
+            padding-left: 24px;
+            position: relative;
+        }
+
+        .comparison-card li:before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: #58a6ff;
+        }
+
+        .balance-sheet {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 48px;
+            margin: 40px 0;
+            padding: 40px;
+            background: #161b22;
+            border-radius: 12px;
+        }
+
+        .balance-column h4 {
+            font-size: 32px;
+            color: #58a6ff;
+            margin-bottom: 24px;
+            text-align: center;
+        }
+
+        .balance-item {
+            background: #1c2128;
+            padding: 20px;
+            margin: 12px 0;
+            border-radius: 8px;
+            font-size: 18px;
+            border-left: 3px solid #58a6ff;
+        }
+
+        .formula {
+            background: #161b22;
+            padding: 40px;
+            border-radius: 12px;
+            border: 2px solid #58a6ff;
+            text-align: center;
+            margin: 32px 0;
+            font-size: 28px;
+            font-family: 'Courier New', monospace;
+        }
+
+        .formula-text {
+            color: #58a6ff;
+            font-weight: 600;
+        }
+
+        .flowchart {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin: 40px 0;
+            padding: 40px;
+        }
+
+        .flow-box {
+            background: #161b22;
+            border: 2px solid #30363d;
+            padding: 32px 40px;
+            border-radius: 12px;
+            font-size: 20px;
+            text-align: center;
+            min-width: 180px;
+            transition: all 0.3s ease;
+        }
+
+        .flow-box:hover {
+            border-color: #58a6ff;
+            transform: scale(1.05);
+        }
+
+        .flow-arrow {
+            color: #58a6ff;
+            font-size: 48px;
+            font-weight: bold;
+        }
+
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 32px;
+            margin: 40px 0;
+        }
+
+        .stat-card {
+            background: #161b22;
+            border-left: 4px solid #58a6ff;
+            padding: 32px;
+            border-radius: 8px;
+        }
+
+        .stat-number {
+            font-size: 56px;
+            font-weight: 700;
+            color: #58a6ff;
+            margin-bottom: 12px;
+        }
+
+        .stat-label {
+            font-size: 18px;
+            color: #8b949e;
+        }
+
+        .table-container {
+            margin: 32px 0;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #161b22;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        th {
+            background: #1c2128;
+            padding: 20px;
+            text-align: left;
+            font-size: 18px;
+            color: #58a6ff;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 20px;
+            border-top: 1px solid #30363d;
+            font-size: 18px;
+        }
+
+        tr:hover {
+            background: #1c2128;
+        }
+
+        .prompt-box {
+            background: #0d1117;
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            padding: 32px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            line-height: 1.8;
+            overflow-y: auto;
+            max-height: calc(100vh - 200px);
+            white-space: pre-wrap;
+        }
+
+        .list-styled {
+            list-style: none;
+            margin: 24px 0;
+        }
+
+        .list-styled li {
+            padding: 16px 24px;
+            margin: 12px 0;
+            background: #161b22;
+            border-left: 4px solid #58a6ff;
+            border-radius: 6px;
+            font-size: 20px;
+        }
+
+        .icon-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+            margin: 40px 0;
+        }
+
+        .icon-card {
+            background: #161b22;
+            padding: 32px 24px;
+            border-radius: 12px;
+            text-align: center;
+            border: 2px solid #30363d;
+            transition: all 0.3s ease;
+        }
+
+        .icon-card:hover {
+            border-color: #58a6ff;
+            transform: translateY(-4px);
+        }
+
+        .icon-card .icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+        }
+
+        .icon-card .title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #58a6ff;
+        }
+
+        .vs-comparison {
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            margin: 60px 0;
+        }
+
+        .vs-item {
+            text-align: center;
+            flex: 1;
+        }
+
+        .vs-item h3 {
+            font-size: 48px;
+            margin-bottom: 24px;
+        }
+
+        .vs-item p {
+            font-size: 22px;
+            color: #8b949e;
+        }
+
+        .vs-divider {
+            font-size: 72px;
+            color: #58a6ff;
+            font-weight: 700;
+            padding: 0 40px;
+        }
+
+        .emphasis-block {
+            background: linear-gradient(135deg, #1c2128 0%, #161b22 100%);
+            border: 3px solid #58a6ff;
+            border-radius: 12px;
+            padding: 48px;
+            margin: 40px 0;
+            text-align: center;
+        }
+
+        .emphasis-block h3 {
+            font-size: 42px;
+            margin-bottom: 24px;
+        }
+
+        .emphasis-block p {
+            font-size: 24px;
+            line-height: 1.8;
+        }
+
+        @media (max-width: 1200px) {
+            h1 { font-size: 56px; }
+            h2 { font-size: 42px; }
+            .comparison-grid { grid-template-columns: 1fr; }
+            .balance-sheet { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="presentation">
+        <nav class="navigation">
+            <div class="nav-title">Capítulos</div>
+            <div class="nav-item active" data-slide="0">Introdução</div>
+            <div class="nav-item" data-slide="1">Prompt do Sistema</div>
+            <div class="nav-item" data-slide="2">O que são Finanças</div>
+            <div class="nav-item" data-slide="3">Finanças: Nível Macro</div>
+            <div class="nav-item" data-slide="4">Finanças: Nível Micro</div>
+            <div class="nav-item" data-slide="5">Balanço Patrimonial</div>
+            <div class="nav-item" data-slide="6">Modalidades Jurídicas</div>
+            <div class="nav-item" data-slide="7">Estrutura Corporativa</div>
+            <div class="nav-item" data-slide="8">Oportunidades de Carreira</div>
+            <div class="nav-item" data-slide="9">Finanças vs Economia</div>
+            <div class="nav-item" data-slide="10">Finanças vs Contabilidade</div>
+            <div class="nav-item" data-slide="11">Exemplo: Competência vs Caixa</div>
+            <div class="nav-item" data-slide="12">Atividades do Administrador</div>
+            <div class="nav-item" data-slide="13">Maximização do Lucro</div>
+            <div class="nav-item" data-slide="14">Maximização da Riqueza</div>
+            <div class="nav-item" data-slide="15">Fluxo de Decisão</div>
+            <div class="nav-item" data-slide="16">EVA</div>
+            <div class="nav-item" data-slide="17">Ética em Finanças</div>
+            <div class="nav-item" data-slide="18">Problema de Agency</div>
+            <div class="nav-item" data-slide="19">Solução Agency</div>
+            <div class="nav-item" data-slide="20">Instituições Financeiras</div>
+            <div class="nav-item" data-slide="21">Mercados Financeiros</div>
+            <div class="nav-item" data-slide="22">Primário vs Secundário</div>
+            <div class="nav-item" data-slide="23">Tributação: Alíquotas</div>
+            <div class="nav-item" data-slide="24">Tributação: Dívida vs Equity</div>
+            <div class="nav-item" data-slide="25">Síntese</div>
+        </nav>
+
+        <div class="slide-container">
+            <!-- Slide 0: Introdução -->
+            <div class="slide active">
+                <h1>Administração Financeira</h1>
+                <div class="subtitle">Capítulo 1: O Papel e o Ambiente</div>
+                <div class="key-point">
+                    Fundamentos da gestão financeira empresarial
+                </div>
+                <div class="slide-number">1 / 26</div>
+            </div>
+
+            <!-- Slide 1: Prompt do Sistema -->
+            <div class="slide">
+                <h2>Prompt do Sistema</h2>
+                <div class="prompt-box">Orientações para Criação de Slides: Administração Financeira
+
+Abaixo estão as notas e os conceitos centrais que preparei para a nossa aula de Administração Financeira, voltada aos alunos do 5º período de Administração da Cesufoz.
+
+1. Design e Impacto Visual
+   • Foco no Essencial: Slides minimalistas com texto estritamente necessário
+   • Contraste Acadêmico: Alto contraste entre fundo e elementos de primeiro plano
+   • Ponto Focal: Uma única cor de destaque por slide
+   • Estética Moderna: Visual limpo e contemporâneo (dezembro de 2025)
+
+2. Estrutura de Navegação
+   • Mapa da Aula: Lista de capítulos no centro à esquerda de cada slide
+   • Transparência de Metodologia: Slide com prompt completo do sistema
+
+3. Objetivo Pedagógico
+   • Entrega Funcional: Arquivo HTML único com CSS e JavaScript integrados
+   • Clareza nos Cálculos: Fluxo lógico e sequencial para temas complexos
+                </div>
+                <div class="slide-number">2 / 26</div>
+            </div>
+
+            <!-- Slide 2: O que são Finanças -->
+            <div class="slide">
+                <h2>O que são <span class="highlight">Finanças</span>?</h2>
+                <div class="comparison-grid">
+                    <div class="comparison-card">
+                        <h4>Nível Macro</h4>
+                        <ul>
+                            <li>Instituições financeiras</li>
+                            <li>Mercados financeiros</li>
+                            <li>Sistema financeiro</li>
+                            <li>Contexto internacional</li>
+                        </ul>
+                    </div>
+                    <div class="comparison-card">
+                        <h4>Nível Micro</h4>
+                        <ul>
+                            <li>Planejamento financeiro</li>
+                            <li>Gestão de ativos</li>
+                            <li>Captação de fundos</li>
+                            <li>Decisões empresariais</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="slide-number">3 / 26</div>
+            </div>
+
+            <!-- Slide 3: Nível Macro -->
+            <div class="slide">
+                <h2>Finanças: Nível <span class="highlight">Macro</span></h2>
+                <div class="concept-box">
+                    <h4>Definição</h4>
+                    <p>Campo de estudo de instituições financeiras e mercados financeiros e como funcionam dentro do sistema financeiro.</p>
+                </div>
+                <div class="key-point">
+                    Sistema financeiro desenvolvido = característica essencial de qualquer nação moderna
+                </div>
+                <div class="slide-number">4 / 26</div>
+            </div>
+
+            <!-- Slide 4: Nível Micro -->
+            <div class="slide">
+                <h2>Finanças: Nível <span class="highlight">Micro</span></h2>
+                <div class="stat-grid">
+                    <div class="stat-card">
+                        <div class="stat-number">📊</div>
+                        <div class="stat-label">Planejamento Financeiro</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">💼</div>
+                        <div class="stat-label">Gestão de Ativos</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">💰</div>
+                        <div class="stat-label">Captação de Fundos</div>
+                    </div>
+                </div>
+                <div class="emphasis-block">
+                    <h3>Uso eficiente de recursos financeiros na produção de bens</h3>
+                </div>
+                <div class="slide-number">5 / 26</div>
+            </div>
+
+            <!-- Slide 5: Balanço Patrimonial -->
+            <div class="slide">
+                <h2>Balanço Patrimonial</h2>
+                <div class="balance-sheet">
+                    <div class="balance-column">
+                        <h4>ATIVOS</h4>
+                        <div class="balance-item">Ativos Circulantes</div>
+                        <div class="balance-item">Ativos Fixos</div>
+                        <div style="margin-top: 32px; text-align: center; color: #58a6ff; font-size: 24px; font-weight: 600;">
+                            ← Decisões de Investimento
+                        </div>
+                    </div>
+                    <div class="balance-column">
+                        <h4>PASSIVOS + PL</h4>
+                        <div class="balance-item">Passivos Circulantes</div>
+                        <div class="balance-item">Passivos de Longo Prazo</div>
+                        <div class="balance-item">Patrimônio Líquido</div>
+                        <div style="margin-top: 32px; text-align: center; color: #58a6ff; font-size: 24px; font-weight: 600;">
+                            Decisões de Financiamento →
+                        </div>
+                    </div>
+                </div>
+                <div class="slide-number">6 / 26</div>
+            </div>
+
+            <!-- Slide 6: Modalidades Jurídicas -->
+            <div class="slide">
+                <h2>Modalidades Jurídicas</h2>
+                <div class="comparison-grid">
+                    <div class="comparison-card">
+                        <h4>Firma Individual</h4>
+                        <ul>
+                            <li>Proprietário recebe todos os lucros</li>
+                            <li>Custo baixo de organização</li>
+                            <li>Independência total</li>
+                            <li>Responsabilidade ilimitada</li>
+                        </ul>
+                    </div>
+                    <div class="comparison-card">
+                        <h4>Sociedade por Cotas</h4>
+                        <ul>
+                            <li>Captação ampliada de recursos</li>
+                            <li>Maior poder de gestão</li>
+                            <li>Lucro tributado como PF</li>
+                            <li>Dificuldade de dissolução</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="comparison-card">
+                    <h4>Sociedade por Ações</h4>
+                    <ul>
+                        <li>Responsabilidade limitada</li>
+                        <li>Transferência fácil de propriedade</li>
+                        <li>Acesso facilitado a financiamento</li>
+                        <li>Dupla tributação</li>
+                    </ul>
+                </div>
+                <div class="slide-number">7 / 26</div>
+            </div>
+
+            <!-- Slide 7: Estrutura Corporativa -->
+            <div class="slide">
+                <h2>Estrutura Corporativa</h2>
+                <div class="flowchart">
+                    <div class="flow-box">Acionistas<br/>(Proprietários)</div>
+                    <div class="flow-arrow">→</div>
+                    <div class="flow-box">Conselho de<br/>Administração</div>
+                    <div class="flow-arrow">→</div>
+                    <div class="flow-box">CEO<br/>(Presidente)</div>
+                </div>
+                <div class="flowchart">
+                    <div class="flow-box">CFO<br/>(VP Finanças)</div>
+                    <div class="flow-arrow">↓</div>
+                    <div class="flow-box">Tesoureiro</div>
+                    <div class="flow-arrow">↓</div>
+                    <div class="flow-box">Controller</div>
+                </div>
+                <div class="slide-number">8 / 26</div>
+            </div>
+
+            <!-- Slide 8: Oportunidades de Carreira -->
+            <div class="slide">
+                <h2>Oportunidades de Carreira</h2>
+                <div class="icon-grid">
+                    <div class="icon-card">
+                        <div class="icon">📈</div>
+                        <div class="title">Analista Financeiro</div>
+                    </div>
+                    <div class="icon-card">
+                        <div class="icon">💼</div>
+                        <div class="title">Gerente de Investimentos</div>
+                    </div>
+                    <div class="icon-card">
+                        <div class="icon">🏦</div>
+                        <div class="title">Gerente de Financiamento</div>
+                    </div>
+                    <div class="icon-card">
+                        <div class="icon">💵</div>
+                        <div class="title">Gerente de Caixa</div>
+                    </div>
+                    <div class="icon-card">
+                        <div class="icon">💳</div>
+                        <div class="title">Gerente de Crédito</div>
+                    </div>
+                    <div class="icon-card">
+                        <div class="icon">👥</div>
+                        <div class="title">Gerente de Fundos de Pensão</div>
+                    </div>
+                    <div class="icon-card">
+                        <div class="icon">🌐</div>
+                        <div class="title">Gerente de Câmbio</div>
+                    </div>
+                    <div class="icon-card">
+                        <div class="icon">🏢</div>
+                        <div class="title">Planejamento Financeiro</div>
+                    </div>
+                </div>
+                <div class="slide-number">9 / 26</div>
+            </div>
+
+            <!-- Slide 9: Finanças vs Economia -->
+            <div class="slide">
+                <h2>Finanças <span class="highlight">vs</span> Economia</h2>
+                <div class="concept-box">
+                    <h4>Relação Fundamental</h4>
+                    <p>Finanças são frequentemente chamadas de <strong>economia financeira</strong>. Administradores financeiros precisam compreender o arcabouço econômico para reagir às mudanças ou se anteciparem a elas.</p>
+                </div>
+                <div class="emphasis-block">
+                    <h3>Análise Marginal</h3>
+                    <p>Uma decisão financeira deve ser tomada apenas quando os <span class="highlight">benefícios adicionais superam os custos adicionais</span></p>
+                </div>
+                <div class="slide-number">10 / 26</div>
+            </div>
+
+            <!-- Slide 10: Finanças vs Contabilidade -->
+            <div class="slide">
+                <h2>Finanças <span class="highlight">vs</span> Contabilidade</h2>
+                <div class="vs-comparison">
+                    <div class="vs-item">
+                        <h3>Contabilidade</h3>
+                        <p>Regime de Competência</p>
+                        <p style="margin-top: 20px;">Coleta e apresentação de dados</p>
+                    </div>
+                    <div class="vs-divider">≠</div>
+                    <div class="vs-item">
+                        <h3>Finanças</h3>
+                        <p>Fluxos de Caixa</p>
+                        <p style="margin-top: 20px;">Análise e interpretação para decisões</p>
+                    </div>
+                </div>
+                <div class="slide-number">11 / 26</div>
+            </div>
+
+            <!-- Slide 11: Exemplo Nassau Corporation -->
+            <div class="slide">
+                <h2>Exemplo: Nassau Corporation</h2>
+                <div class="concept-box">
+                    <h4>Cenário</h4>
+                    <p>Vendas: $100.000 (um iate vendido, 100% a receber)<br/>
+                    Custos: $80.000 (pagos integralmente aos fornecedores)</p>
+                </div>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Item</th>
+                                <th>Competência</th>
+                                <th>Caixa</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Vendas/Entrada</td>
+                                <td>$100.000</td>
+                                <td>$0</td>
+                            </tr>
+                            <tr>
+                                <td>Custos/Saída</td>
+                                <td>($80.000)</td>
+                                <td>($80.000)</td>
+                            </tr>
+                            <tr style="font-weight: 600; color: #58a6ff;">
+                                <td>Lucro/Fluxo Líquido</td>
+                                <td>$20.000</td>
+                                <td>($80.000)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="slide-number">12 / 26</div>
+            </div>
+
+            <!-- Slide 12: Atividades do Administrador -->
+            <div class="slide">
+                <h2>Atividades do Administrador Financeiro</h2>
+                <div class="comparison-grid">
+                    <div class="comparison-card">
+                        <h4>Decisões de Investimento</h4>
+                        <ul>
+                            <li>Avaliação de projetos</li>
+                            <li>Análise de ativos</li>
+                            <li>Capital de giro</li>
+                            <li>Alocação de recursos</li>
+                        </ul>
+                    </div>
+                    <div class="comparison-card">
+                        <h4>Decisões de Financiamento</h4>
+                        <ul>
+                            <li>Estrutura de capital</li>
+                            <li>Fontes de recursos</li>
+                            <li>Política de dividendos</li>
+                            <li>Gestão de passivos</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="slide-number">13 / 26</div>
+            </div>
+
+            <!-- Slide 13: Maximização do Lucro -->
+            <div class="slide">
+                <h2>Objetivo: Maximização do Lucro?</h2>
+                <div class="emphasis-block" style="border-color: #f85149;">
+                    <h3>❌ Limitações</h3>
+                    <p>Não considera:</p>
+                </div>
+                <ul class="list-styled">
+                    <li><strong>Nível</strong> dos fluxos de caixa</li>
+                    <li><strong>Distribuição no tempo</strong> dos fluxos</li>
+                    <li><strong>Risco</strong> dos fluxos de caixa</li>
+                </ul>
+                <div class="key-point">
+                    Lucro contábil ≠ Criação de valor
+                </div>
+                <div class="slide-number">14 / 26</div>
+            </div>
+
+            <!-- Slide 14: Maximização da Riqueza -->
+            <div class="slide">
+                <h2>Objetivo: Maximização da <span class="highlight">Riqueza</span></h2>
+                <div class="formula">
+                    <div class="formula-text">
+                        Preço da Ação = Dividendos Futuros / Retorno Exigido
+                    </div>
+                </div>
+                <div class="stat-grid">
+                    <div class="stat-card">
+                        <div class="stat-number">💵</div>
+                        <div class="stat-label">Nível e distribuição de fluxos de caixa</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">⏱️</div>
+                        <div class="stat-label">Distribuição no tempo</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">⚠️</div>
+                        <div class="stat-label">Risco dos fluxos</div>
+                    </div>
+                </div>
+                <div class="slide-number">15 / 26</div>
+            </div>
+
+            <!-- Slide 15: Fluxo de Decisão -->
+            <div class="slide">
+                <h2>Fluxo de Decisão Financeira</h2>
+                <div class="flowchart">
+                    <div class="flow-box">Administrador Financeiro</div>
+                    <div class="flow-arrow">→</div>
+                    <div class="flow-box">Alternativa de Decisão</div>
+                    <div class="flow-arrow">→</div>
+                    <div class="flow-box">Avaliação:<br/>Retorno?<br/>Risco?</div>
+                </div>
+                <div class="flowchart" style="margin-top: 40px;">
+                    <div class="flow-box">Aumenta o preço da ação?</div>
+                    <div class="flow-arrow">→</div>
+                    <div class="flow-box" style="background: #1c4028; border-color: #3fb950;">✓ Aceitar</div>
+                </div>
+                <div class="flowchart">
+                    <div class="flow-box">Não aumenta preço</div>
+                    <div class="flow-arrow">→</div>
+                    <div class="flow-box" style="background: #49222a; border-color: #f85149;">✗ Rejeitar</div>
+                </div>
+                <div class="slide-number">16 / 26</div>
+            </div>
+
+            <!-- Slide 16: EVA -->
+            <div class="slide">
+                <h2>Valor Econômico Adicionado <span class="highlight">(EVA)</span></h2>
+                <div class="concept-box">
+                    <h4>Definição</h4>
+                    <p>Medida que determina se um investimento contribui positivamente para a riqueza dos acionistas.</p>
+                </div>
+                <div class="formula">
+                    <div class="formula-text">
+                        EVA = Lucros Operacionais Líquidos - Custo dos Fundos
+                    </div>
+                </div>
+                <div class="comparison-grid">
+                    <div class="comparison-card" style="background: #1c4028; border-color: #3fb950;">
+                        <h4>EVA Positivo</h4>
+                        <ul>
+                            <li>Aumenta riqueza</li>
+                            <li>Investimento aprovado</li>
+                        </ul>
+                    </div>
+                    <div class="comparison-card" style="background: #49222a; border-color: #f85149;">
+                        <h4>EVA Negativo</h4>
+                        <ul>
+                            <li>Diminui riqueza</li>
+                            <li>Investimento rejeitado</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="slide-number">17 / 26</div>
+            </div>
+
+            <!-- Slide 17: Ética -->
+            <div class="slide">
+                <h2>O Papel da <span class="highlight">Ética</span></h2>
+                <div class="concept-box">
+                    <h4>Definição</h4>
+                    <p>Conjunto de padrões de conduta ou julgamento moral - questão fundamental na comunidade financeira.</p>
+                </div>
+                <ul class="list-styled">
+                    <li>Violações éticas geram publicidade negativa</li>
+                    <li>Impactos negativos sobre a empresa</li>
+                    <li>Redução da confiança dos acionistas</li>
+                    <li>Litígios e custos judiciais</li>
+                </ul>
+                <div class="emphasis-block">
+                    <h3>Resultado esperado de programas éticos:</h3>
+                    <p>Impacto <span class="highlight">positivo</span> sobre o preço da ação</p>
+                </div>
+                <div class="slide-number">18 / 26</div>
+            </div>
+
+            <!-- Slide 18: Problema de Agency -->
+            <div class="slide">
+                <h2>Problema de <span class="highlight">Agency</span></h2>
+                <div class="concept-box">
+                    <h4>Origem do Problema</h4>
+                    <p>Sempre que um administrador detém menos de 100% do capital da empresa, há um possível problema de agency.</p>
+                </div>
+                <div class="comparison-grid">
+                    <div class="comparison-card">
+                        <h4>Administradores deveriam</h4>
+                        <ul>
+                            <li>Maximizar riqueza dos acionistas</li>
+                            <li>Agir no melhor interesse dos proprietários</li>
+                        </ul>
+                    </div>
+                    <div class="comparison-card">
+                        <h4>Administradores também se preocupam com</h4>
+                        <ul>
+                            <li>Riqueza pessoal</li>
+                            <li>Segurança do emprego</li>
+                            <li>Benefícios indiretos</li>
+                            <li>Estilo de vida</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="slide-number">19 / 26</div>
+            </div>
+
+            <!-- Slide 19: Solução Agency -->
+            <div class="slide">
+                <h2>Solução do Problema de Agency</h2>
+                <ul class="list-styled">
+                    <li><strong>Forças de mercado:</strong> Principais acionistas e ameaça de aquisição</li>
+                    <li><strong>Custos de agency:</strong> Monitoramento do comportamento</li>
+                    <li><strong>Remuneração alinhada:</strong> Esquemas que alinham interesses</li>
+                    <li><strong>Restrições contratuais:</strong> Limites ao comportamento gerencial</li>
+                </ul>
+                <div class="concept-box" style="margin-top: 40px;">
+                    <h4>⚠️ Observação</h4>
+                    <p>Estudos recentes não encontraram forte relação entre remuneração de executivos e preço da ação.</p>
+                </div>
+                <div class="slide-number">20 / 26</div>
+            </div>
+
+            <!-- Slide 20: Instituições Financeiras -->
+            <div class="slide">
+                <h2>Instituições Financeiras</h2>
+                <div class="emphasis-block">
+                    <h3>Papel de Intermediação</h3>
+                    <p>Canalizam poupanças de indivíduos, empresas e governo para empréstimos ou aplicações</p>
+                </div>
+                <div class="stat-grid">
+                    <div class="stat-card">
+                        <div class="stat-number">💰</div>
+                        <div class="stat-label">Fornecedores Líquidos:<br/>Indivíduos</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">🏦</div>
+                        <div class="stat-label">Intermediários:<br/>Instituições</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">🏢</div>
+                        <div class="stat-label">Demandantes Líquidos:<br/>Empresas e Governo</div>
+                    </div>
+                </div>
+                <div class="slide-number">21 / 26</div>
+            </div>
+
+            <!-- Slide 21: Mercados Financeiros -->
+            <div class="slide">
+                <h2>Mercados Financeiros</h2>
+                <div class="comparison-grid">
+                    <div class="comparison-card">
+                        <h4>Mercado Monetário</h4>
+                        <ul>
+                            <li>Títulos de curto prazo</li>
+                            <li>Vencimento ≤ 1 ano</li>
+                            <li>Títulos negociáveis</li>
+                            <li>Alta liquidez</li>
+                        </ul>
+                    </div>
+                    <div class="comparison-card">
+                        <h4>Mercado de Capitais</h4>
+                        <ul>
+                            <li>Títulos de longo prazo</li>
+                            <li>Obrigações (dívidas)</li>
+                            <li>Ações ordinárias</li>
+                            <li>Ações preferenciais</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="concept-box" style="margin-top: 32px;">
+                    <h4>Definição</h4>
+                    <p>Fóruns nos quais fornecedores e demandantes de fundos transacionam diretamente.</p>
+                </div>
+                <div class="slide-number">22 / 26</div>
+            </div>
+
+            <!-- Slide 22: Primário vs Secundário -->
+            <div class="slide">
+                <h2>Mercado Primário <span class="highlight">vs</span> Secundário</h2>
+                <div class="comparison-grid">
+                    <div class="comparison-card" style="border-color: #58a6ff;">
+                        <h4>Mercado Primário</h4>
+                        <ul>
+                            <li>Lançamento inicial de títulos</li>
+                            <li>Emitente envolve-se diretamente</li>
+                            <li>Empresa recebe recursos</li>
+                            <li>IPO (Oferta Pública Inicial)</li>
+                        </ul>
+                    </div>
+                    <div class="comparison-card">
+                        <h4>Mercado Secundário</h4>
+                        <ul>
+                            <li>Negociação de títulos existentes</li>
+                            <li>Investidores transacionam entre si</li>
+                            <li>Empresa não recebe recursos</li>
+                            <li>Bolsas de valores (NYSE, Nasdaq)</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="slide-number">23 / 26</div>
+            </div>
+
+            <!-- Slide 23: Tributação - Alíquotas -->
+            <div class="slide">
+                <h2>Tributação: Rendimentos Ordinários</h2>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Lucro Tributável</th>
+                                <th>Alíquota Marginal</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>$0 a $50.000</td>
+                                <td style="color: #58a6ff; font-weight: 600;">15%</td>
+                            </tr>
+                            <tr>
+                                <td>$50.000 a $75.000</td>
+                                <td style="color: #58a6ff; font-weight: 600;">25%</td>
+                            </tr>
+                            <tr>
+                                <td>$75.000 a $100.000</td>
+                                <td style="color: #58a6ff; font-weight: 600;">34%</td>
+                            </tr>
+                            <tr>
+                                <td>$100.000 a $335.000</td>
+                                <td style="color: #58a6ff; font-weight: 600;">39%</td>
+                            </tr>
+                            <tr>
+                                <td>$335.000 a $10.000.000</td>
+                                <td style="color: #58a6ff; font-weight: 600;">34%</td>
+                            </tr>
+                            <tr>
+                                <td>Acima de $10.000.000</td>
+                                <td style="color: #58a6ff; font-weight: 600;">35%</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="concept-box" style="margin-top: 24px;">
+                    <h4>Alíquota Média vs Marginal</h4>
+                    <p>Marginal: alíquota do lucro adicional | Média: imposto total / lucro tributável</p>
+                </div>
+                <div class="slide-number">24 / 26</div>
+            </div>
+
+            <!-- Slide 24: Tributação Dívida vs Equity -->
+            <div class="slide">
+                <h2>Tributação: Dívida <span class="highlight">vs</span> Equity</h2>
+                <div class="emphasis-block">
+                    <h3>Vantagem Fiscal do Capital de Terceiros</h3>
+                    <p>Despesas financeiras (juros) são <span class="highlight">dedutíveis</span><br/>
+                    Dividendos <strong>não são dedutíveis</strong></p>
+                </div>
+                <div class="table-container" style="margin-top: 32px;">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Debt Co.</th>
+                                <th>No Debt Co.</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Lucro antes de juros e impostos</td>
+                                <td>$200.000</td>
+                                <td>$200.000</td>
+                            </tr>
+                            <tr>
+                                <td>Menos: juros</td>
+                                <td style="color: #58a6ff;">($30.000)</td>
+                                <td>$0</td>
+                            </tr>
+                            <tr>
+                                <td>Menos: imposto (40%)</td>
+                                <td>($68.000)</td>
+                                <td>($80.000)</td>
+                            </tr>
+                            <tr style="font-weight: 600; color: #58a6ff;">
+                                <td>Lucro depois do imposto</td>
+                                <td>$102.000</td>
+                                <td>$120.000</td>
+                            </tr>
+                            <tr style="font-weight: 600; color: #3fb950;">
+                                <td>Diferença (benefício fiscal)</td>
+                                <td colspan="2" style="text-align: center;">$18.000</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="slide-number">25 / 26</div>
+            </div>
+
+            <!-- Slide 25: Síntese -->
+            <div class="slide">
+                <h2>Síntese do Capítulo 1</h2>
+                <ul class="list-styled">
+                    <li><strong>Finanças:</strong> Instituições, mercados e gestão de recursos</li>
+                    <li><strong>Objetivo:</strong> Maximização da riqueza dos acionistas</li>
+                    <li><strong>Decisões:</strong> Investimento (ativos) e Financiamento (passivos)</li>
+                    <li><strong>Fluxo de caixa</strong> mais importante que lucro contábil</li>
+                    <li><strong>Agency:</strong> Alinhamento entre administradores e acionistas</li>
+                    <li><strong>Mercados:</strong> Monetário (curto prazo) e Capitais (longo prazo)</li>
+                    <li><strong>Tributação:</strong> Vantagem fiscal do capital de terceiros</li>
+                </ul>
+                <div class="emphasis-block" style="margin-top: 48px;">
+                    <h3>Base para decisões financeiras empresariais</h3>
+                </div>
+                <div class="slide-number">26 / 26</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const navItems = document.querySelectorAll('.nav-item');
+        const totalSlides = slides.length;
+
+        function showSlide(n) {
+            slides[currentSlide].classList.remove('active');
+            navItems[currentSlide].classList.remove('active');
+            
+            currentSlide = (n + totalSlides) % totalSlides;
+            
+            slides[currentSlide].classList.add('active');
+            navItems[currentSlide].classList.add('active');
+            
+            // Scroll navigation into view
+            navItems[currentSlide].scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        function nextSlide() {
+            showSlide(currentSlide + 1);
+        }
+
+        function prevSlide() {
+            showSlide(currentSlide - 1);
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ') {
+                e.preventDefault();
+                nextSlide();
+            } else if (e.key === 'ArrowLeft') {
+                e.preventDefault();
+                prevSlide();
+            }
+        });
+
+        // Navigation click
+        navItems.forEach((item, index) => {
+            item.addEventListener('click', () => {
+                showSlide(index);
+            });
+        });
+
+        // Touch/swipe support
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        document.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        });
+
+        document.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        });
+
+        function handleSwipe() {
+            if (touchEndX < touchStartX - 50) {
+                nextSlide();
+            }
+            if (touchEndX > touchStartX + 50) {
+                prevSlide();
+            }
+        }
+
+        // Mouse wheel navigation
+        let wheelTimeout;
+        document.addEventListener('wheel', (e) => {
+            clearTimeout(wheelTimeout);
+            wheelTimeout = setTimeout(() => {
+                if (e.deltaY > 0) {
+                    nextSlide();
+                } else if (e.deltaY < 0) {
+                    prevSlide();
+                }
+            }, 50);
+        }, { passive: true });
+    </script>
+</body>
+</html>
